@@ -1,3 +1,7 @@
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import { Routes } from './routes/Routes'
+import { BrowserRouter as Router } from 'react-router-dom'
 import Navbar from './components/Navbar'
 
 export default class App extends Component {
@@ -12,6 +16,6 @@ export default class App extends Component {
 }
 
 export const launch = () => {
-  if (document.getElementById("app"))
-    ReactDOM.render(<App />, document.getElementById("app"))
+  if (document.getElementById('app'))
+    ReactDOM.render(<App />, document.getElementById('app'))
 }
