@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import RedditIcon from '@material-ui/icons/Reddit'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,8 +16,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {},
     title: {
-      flexGrow: 1
+      flexGrow: 1,
     },
+    navLink: {
+      color: 'inherit',
+      textDecoration: 'inherit'
+    }
   })
 )
 
@@ -37,7 +42,7 @@ export default function Navbar() {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             <RedditIcon />
-            Reddit Clone
+            <Link to="/" className={classes.navLink}>Reddit Clone</Link>
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
