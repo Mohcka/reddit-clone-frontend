@@ -44,6 +44,7 @@ export default function Navbar() {
             <RedditIcon />
             <Link to="/" className={classes.navLink}>Reddit Clone</Link>
           </Typography>
+          <Link to="/about" className={classes.navLink}>About</Link>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
