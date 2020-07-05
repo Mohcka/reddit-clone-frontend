@@ -4,8 +4,6 @@ import Home from "../components/pages/Home"
 import { About } from "../components/pages/About"
 import NoMatch from "../components/NoMatch"
 
-// * 404
-// TODO: import 404 component
 
 export const Routes = () => {
   return (
