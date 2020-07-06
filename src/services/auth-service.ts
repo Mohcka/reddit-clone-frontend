@@ -1,5 +1,3 @@
-import { responsiveFontSizes } from '@material-ui/core'
-import { CookieHelper } from '../utils/cookie-helpers'
 
 export interface IAuthService {
   /**
