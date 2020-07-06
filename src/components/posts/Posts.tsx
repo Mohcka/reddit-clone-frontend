@@ -20,7 +20,16 @@ const Posts: React.FC = () => {
   const [posts, setPosts] = useState<PostModel[]>([])
 
   useEffect(() => {
-    postApiService.getAll().then((resp) => setPosts(resp as PostModel[]))
+    console.log('getting posts')
+    postApiService
+      .getAll()
+      .then((resp) => {
+        console.log(resp)
+        setPosts(resp)
+      })
+      .catch((err) => {
+        console.log(posts)
+      })
   }, [])
 
   return <PostsMUI posts={posts} />
