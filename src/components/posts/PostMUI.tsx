@@ -2,7 +2,7 @@ import React from 'react'
 import { PostModel } from '../../models/post-model'
 
 import Paper from '@material-ui/core/Paper'
-import { makeStyles, Theme, createStyles } from '@material-ui/core'
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
