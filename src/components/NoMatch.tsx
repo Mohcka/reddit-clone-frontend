@@ -1,6 +1,5 @@
 import React from 'react';
 import { RouteProps } from 'react-router';
-console.log('NO MATCH');
 
 const NoMatch: React.FC<RouteProps> = props => (
     <div className="container-fluid">
