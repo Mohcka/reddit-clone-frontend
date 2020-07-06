@@ -1,18 +1,23 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Routes } from './routes/Routes'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Navbar from './components/sections/Navbar'
+import { AuthContext, jwtAuthService } from './components/context/AuthContext'
 
-export default class App extends Component {
-  render() {
+const App = () => {
+  // Set global state for context
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const value = {isAuthenticated, setIsAuthenticated, authService: jwtAuthService}
+
     return (
-      <Router>
-        <Navbar />
-        <Routes />
-      </Router>
+      <AuthContext.Provider value={value}>
+        <Router>
+          <Navbar />
+          <Routes />
+        </Router>
+      </AuthContext.Provider>
     )
-  }
 }
 
 export const launch = () => {
