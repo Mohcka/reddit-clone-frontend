@@ -9,7 +9,7 @@ export interface IAuthContext {
 }
 
 export const fakeAuthService = new FakeAuthService();
-export const jwtAuthService = new JwtAuthService(`https://localhost:5001/api/users`);
+export const jwtAuthService = new JwtAuthService({baseUrl: 'https://localhost:5001/api/users'});
 
 /**
  * Context used to provide the authentication service

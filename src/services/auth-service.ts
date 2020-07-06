@@ -14,6 +14,22 @@ export interface IAuthService {
   signout(): Promise<any>
 }
 
+export interface AuthPathsConfig {
+  baseUrl: string
+  tokenRequestUrl?: string
+  refreshTokenRequestUrl?: string
+  revokeTokenRequestUrl?: string
+}
+
+export interface IAuthPaths extends AuthPathsConfig {}
+
+/** An object of paths that the AuthService is expected to use */
+export const AuthPaths = (config: AuthPathsConfig) => ({
+  baseUrl: config.baseUrl,
+  tokenRequestUrl: `${config.baseUrl}${config.tokenRequestUrl}`,
+  refreshTokenRequestUrl: `${config.baseUrl}${config.refreshTokenRequestUrl}`,
+  revokeTokenRequestUrl: `${config.baseUrl}${config.revokeTokenRequestUrl}`,
+})
 export class FakeAuthService implements IAuthService {
   isAuthenticated = false
 
@@ -49,8 +65,8 @@ export class JwtAuthService implements IAuthService {
   private token: string = ""
   private headers: Headers = new Headers()
 
-  constructor(apiUrl: string) {
-    this.authUrl = apiUrl
+  constructor(private authPathsConfig: IAuthPaths) {
+    this.authUrl = authPathsConfig.baseUrl
     
     this.setupHeaders()
   }
