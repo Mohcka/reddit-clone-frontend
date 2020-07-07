@@ -85,7 +85,9 @@ export class JwtAuthService implements IAuthService {
       .then((resp) => {
         if (resp.status !== 200) throw new Error(resp.statusText)
 
+        // Store token in local storage
         TokenLocalStorage.storeToken(resp.data.token)
+        // From this point, axios will authorize with received token
         axios.defaults.headers['Authorization'] = `Bearer ${TokenLocalStorage.getToken()}`
         return resp.data
       })
