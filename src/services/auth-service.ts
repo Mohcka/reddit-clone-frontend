@@ -1,4 +1,6 @@
 
+import axios from 'axios'
+import { TokenLocalStorage } from '../utils/token-storage'
 export interface IAuthService {
   /**
    * Attempts to authenticate the user
@@ -75,26 +77,19 @@ export class JwtAuthService implements IAuthService {
   }
 
   authenticate(): Promise<jwtResponseDTO> {
-    return fetch(`${this.authUrl}`, {
-      method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify({ username: 'Name', password: 'test' }),
+    return axios
+      .post<jwtResponseDTO>(`${this.authUrl}`, {
+        username: 'Name',
+        password: 'test',
     })
-      .then(async (resp) => {
-        // Throw error to consumer to handle on it's end
-        if (!resp.ok) {
-          const text = await resp.text()
-          throw new Error(JSON.parse(text).message)
-        }
+      .then((resp) => {
+        if (resp.status !== 200) throw new Error(resp.statusText)
 
-        return resp.json() as Promise<jwtResponseDTO>
+        TokenLocalStorage.storeToken(resp.data.token)
+        axios.defaults.headers['Authorization'] = `Bearer ${TokenLocalStorage.getToken()}`
+        return resp.data
       })
-      .then((data) => {
-        console.log(data)
-        // Store the token 
-        // TODO: do NOT store token in browser cookie
-        return data
-      })
+      .then((data) => data)
   }
 
   authCheck(){
