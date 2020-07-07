@@ -10,6 +10,10 @@ import { AuthContext, fakeAuthService } from '../components/context/AuthContext'
 import { IAuthService, FakeAuthService } from '../services/auth-service'
 import Login from '../components/auth/Login'
 import CreatePost from '../components/pages/CreatePost'
+import {
+  ApiServiceContext,
+  ApiPostService,
+} from '../components/context/ApiContext'
 
 /**
  * Specialized route for redirecting user to login screen if they
@@ -17,8 +21,8 @@ import CreatePost from '../components/pages/CreatePost'
  */
 const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   // Take auth service from Global provider
-  const {isAuthenticated} = useContext(AuthContext)
-  
+  const { isAuthenticated } = useContext(AuthContext)
+
   // TODO: check in with the server on every request of a private route
   //       in case a token has expired
   useEffect(() => {
@@ -43,8 +47,8 @@ const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
 }
 
 export const Routes = () => {
-
   return (
+    <ApiServiceContext.Provider value={ApiPostService}>
       <Switch>
         <Route path="/login">
           <Login />
@@ -57,12 +61,13 @@ export const Routes = () => {
         <PrivateRoute path="/create-post">
           <CreatePost />
         </PrivateRoute>
-        
+
         <Route exact path="/">
           <Home />
         </Route>
-        
+
         <Route component={NoMatch} />
       </Switch>
+    </ApiServiceContext.Provider>
   )
 }
