@@ -6,7 +6,9 @@ import PostsService from '../../services/posts-service';
 export type IApiProviderContext<T> = ApiWebService<T>
 
 // TODO: make configuration for urls
-export const ApiPostService = new PostsService(`https://localhost:5001/api/posts`);
+export const ApiServices = {
+  postService: new PostsService(`https://localhost:5001/api/posts`)
+}
 
 /**
  * Context used to provide context for making Api calls
@@ -15,4 +17,4 @@ export const ApiPostService = new PostsService(`https://localhost:5001/api/posts
  * 
    // TODO: use more defined type than any
  */
-export const ApiServiceContext = React.createContext<ApiWebService<any>>(ApiPostService);
+export const ApiServiceContext = React.createContext(ApiServices);

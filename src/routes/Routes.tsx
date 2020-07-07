@@ -12,7 +12,7 @@ import Login from '../components/auth/Login'
 import CreatePost from '../components/pages/CreatePost'
 import {
   ApiServiceContext,
-  ApiPostService,
+  ApiServices,
 } from '../components/context/ApiContext'
 
 /**
@@ -48,7 +48,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
 
 export const Routes = () => {
   return (
-    <ApiServiceContext.Provider value={ApiPostService}>
+    <ApiServiceContext.Provider value={ApiServices}>
       <Switch>
         <Route path="/login">
           <Login />
