@@ -1,6 +1,6 @@
-
 import axios from 'axios'
 import { TokenLocalStorage } from '../utils/token-storage'
+
 export interface IAuthService {
   /**
    * Attempts to authenticate the user
@@ -30,6 +30,7 @@ export const AuthPaths = (config: AuthPathsConfig) => ({
   refreshTokenRequestUrl: `${config.baseUrl}${config.refreshTokenRequestUrl}`,
   revokeTokenRequestUrl: `${config.baseUrl}${config.revokeTokenRequestUrl}`,
 })
+
 export class FakeAuthService implements IAuthService {
   isAuthenticated = false
 
@@ -66,7 +67,7 @@ export class JwtAuthService implements IAuthService {
 
   constructor(private authPathsConfig: IAuthPaths) {
     this.authUrl = authPathsConfig.baseUrl
-    
+
     this.setupHeaders()
   }
 
@@ -80,7 +81,7 @@ export class JwtAuthService implements IAuthService {
       .post<jwtResponseDTO>(`${this.authUrl}`, {
         username: 'Name',
         password: 'test',
-    })
+      })
       .then((resp) => {
         if (resp.status !== 200) throw new Error(resp.statusText)
 
@@ -91,9 +92,7 @@ export class JwtAuthService implements IAuthService {
       .then((data) => data)
   }
 
-  authCheck(){
-
-  }
+  authCheck() {}
 
   signout(): Promise<void> {
     return fetch(`${this.authUrl}/signout`, { method: 'GET' })
