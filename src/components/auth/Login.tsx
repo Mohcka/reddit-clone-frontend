@@ -25,8 +25,6 @@ const Login = () => {
   )
 
   const authenticate = () => {
-    // authService.authenticate((
-    console.log('huh')
     authService
       .authenticate()
       .then(() => {
