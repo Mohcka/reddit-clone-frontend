@@ -1,8 +1,8 @@
 import React from 'react'
-import PostFormMUI from '../posts/PostFormMUI'
+import PostForm from '../posts/PostForm'
 
 const CreatePost = () => {
-  return <PostFormMUI />
+  return <PostForm />
 }
 
 export default CreatePost
