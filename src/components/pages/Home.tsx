@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import axios, { AxiosResponse } from 'axios'
 import { WeatherForcasts } from '../../models/weather-forecast'
@@ -16,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(1),
     },
+    button: {
+      marginBottom: theme.spacing(1),
+    },
   })
 )
 
@@ -25,14 +29,19 @@ const useStyles = makeStyles((theme: Theme) =>
 const Home = () => {
   const classes = useStyles()
 
-    return (
-        <Container>
+  return (
+    <Container>
       <Typography variant="h4" className={classes.title}>
         Here's some posts
       </Typography>
-          <PostsList />
-        </Container>
-    )
-  }
+      <Link to="/create-post" >
+        <Button variant="contained" color="primary" className={classes.button}>
+          Create a new post
+        </Button>
+      </Link>
+      <PostsList />
+    </Container>
+  )
+}
 
 export default Home

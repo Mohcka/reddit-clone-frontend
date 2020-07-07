@@ -9,6 +9,7 @@ import NoMatch from '../components/NoMatch'
 import { AuthContext, fakeAuthService } from '../components/context/AuthContext'
 import { IAuthService, FakeAuthService } from '../services/auth-service'
 import Login from '../components/auth/Login'
+import CreatePost from '../components/pages/CreatePost'
 
 /**
  * Specialized route for redirecting user to login screen if they
@@ -52,6 +53,11 @@ export const Routes = () => {
         <PrivateRoute path="/about">
           <About />
         </PrivateRoute>
+
+        <PrivateRoute path="/create-post">
+          <CreatePost />
+        </PrivateRoute>
+        
         <Route exact path="/">
           <Home />
         </Route>
