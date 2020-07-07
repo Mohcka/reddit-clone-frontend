@@ -13,5 +13,6 @@ export default function Navbar() {
   // Only need to check if authenticated here
   const { isAuthenticated } = useContext(AuthContext)
 
+  // TODO: Send links to UI component as props
   return <NavbarMUI isAuthenticated={isAuthenticated} />
 }
