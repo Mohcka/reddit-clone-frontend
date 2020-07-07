@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import RedditIcon from '@material-ui/icons/Reddit'
-import SignoutButton from '../auth/SignoutButtonMUI'
+import SignoutButtonMUI from '../auth/SignoutButtonMUI'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import { NavbarDummyProps } from './Navbar'
 
@@ -66,7 +66,7 @@ const NavbarMUI: React.FC<NavbarDummyProps> = ({ isAuthenticated }) => {
               </Button>
             </Link>
           ) : (
-            <SignoutButton />
+            <SignoutButtonMUI />
           )}
         </Toolbar>
       </AppBar>
