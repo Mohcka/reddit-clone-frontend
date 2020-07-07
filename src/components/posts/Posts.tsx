@@ -13,9 +13,7 @@ export interface PostsDummyProps {
  * Container for a list of posts received from the server
  */
 const Posts: React.FC = () => {
-  const postApiService: ApiWebService<PostModel> = useContext(
-    ApiServiceContext
-  ) as ApiWebService<PostModel>
+  const postApiService = useContext<ApiWebService<PostModel>>(ApiServiceContext)
 
   const [posts, setPosts] = useState<PostModel[]>([])
 
@@ -24,7 +22,6 @@ const Posts: React.FC = () => {
     postApiService
       .getAll()
       .then((resp) => {
-        console.log(resp)
         setPosts(resp)
       })
       .catch((err) => {

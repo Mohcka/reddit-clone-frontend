@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import PostFormMUI from './PostFormMUI'
 import { PostModel } from '../../models/post-model'
+import { ApiServiceContext} from '../context/ApiContext'
+import { ApiWebService } from '../../services/generic-service'
 import { useHistory } from 'react-router'
 
 export type PostFormProps = Partial<PostModel>
@@ -15,7 +17,9 @@ export type PostFormUIProps = Partial<PostFormProps> & {
 }
 
 const PostForm: React.FC<PostFormProps> = () => {
-  const [postData, setPostData] = useState<PostModel>({
+  const history = useHistory()
+  const postApiService = useContext<ApiWebService<PostModel>>(ApiServiceContext)
+  const [postData, setPostData] = useState<PostModel & { submitted: boolean }>({
     postTitle: '',
     postContent: '',
     submitted: false,

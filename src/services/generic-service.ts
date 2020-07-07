@@ -5,11 +5,12 @@ import axios, { AxiosResponse } from 'axios'
  */
 export interface ApiWebService<T> {
   getAll(): Promise<T[]>
+  create(data: T): Promise<void>
 }
 
 // TODO: add docs
 /**
- * 
+ *
  * @template T The data model that's expected from the server
  */
 export default abstract class BaseService<T> implements ApiWebService<T> {
@@ -25,5 +26,9 @@ export default abstract class BaseService<T> implements ApiWebService<T> {
     return axios
       .get(this.apiUrl)
       .then((resp: AxiosResponse<Array<T>>) => resp.data)
+  }
+
+  create(data: T): Promise<void> {
+    return axios.post(this.apiUrl, data)
   }
 }
