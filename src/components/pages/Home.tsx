@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import axios, { AxiosResponse } from 'axios'
 import { WeatherForcasts } from '../../models/weather-forecast'
@@ -6,30 +6,33 @@ import { PostsModel } from '../../models/post-model'
 import PostsList from '../posts/Posts'
 
 import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import { Theme, createStyles, makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    title: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+    },
+  })
+)
 
 /**
  * Home page of this application
  */
-export default class Home extends Component {
-  constructor(props: React.Props<{}>) {
-    super(props)
-  }
+const Home = () => {
+  const classes = useStyles()
 
-  componentDidMount() {
-    axios
-      .get('https://localhost:5001/api/posts')
-      .then((resp: AxiosResponse<PostsModel>) => {
-      })
-  }
-
-  render() {
     return (
-      <div>
         <Container>
-          <h2>Here's some posts</h2>
+      <Typography variant="h4" className={classes.title}>
+        Here's some posts
+      </Typography>
           <PostsList />
         </Container>
-      </div>
     )
   }
-}
+
+export default Home
