@@ -21,17 +21,13 @@ export class AxiostHttpClientHelper {
     )
   }
 
-  public static staticInitAxiosTokenHandling() {
+  public static staticInitAxiosTokenHandling(handleSignoutCB: () => any) {
     if (TokenLocalStorage.isAuthenticated())
       Axios.defaults.headers[
         'Authorization'
       ] = `Bearer ${TokenLocalStorage.getToken()}`
 
-      this.staticSetupAxiosTokenAuthRequestInterceptor()
-  }
-
-  public static staticSetupAxiosTokenAuthRequestInterceptor() {
-    Axios.interceptors.request.use(
+    Axios.interceptors.response.use(
       (config) => {
         return config
       },
@@ -42,6 +38,30 @@ export class AxiostHttpClientHelper {
         // Unauthorized - remove token
         TokenLocalStorage.clearToken()
 
+        // sign user out
+        handleSignoutCB()
+
+        return Promise.reject(err)
+      }
+    )
+  }
+
+  public static staticSetupAxiosTokenAuthResponseInterceptor(
+    handleSignout: () => {}
+  ) {
+    Axios.interceptors.response.use(
+      (config) => {
+        return config
+      },
+      (err) => {
+        // Return if error was not Unauthorized
+        if (err.response.status !== 401) return Promise.reject(err)
+
+        // Unauthorized - remove token
+        TokenLocalStorage.clearToken()
+
+        // sign user out
+        handleSignout()
         return Promise.reject(err)
       }
     )
