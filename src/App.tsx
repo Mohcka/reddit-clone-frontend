@@ -8,12 +8,8 @@ import { TokenLocalStorage } from './utils/token-storage'
 
 const App = () => {
   // Set global state for context
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(TokenLocalStorage.isAuthenticated());
   const value = {isAuthenticated, setIsAuthenticated, authService: jwtAuthService}
-
-  useEffect(() => {
-    setIsAuthenticated(TokenLocalStorage.isAuthenticated())
-  }, [])
 
     return (
       <AuthContext.Provider value={value}>
