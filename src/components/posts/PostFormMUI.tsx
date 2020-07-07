@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import { PostModel } from '../../models/post-model'
 import { PostFormUIProps } from './PostForm'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,6 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const PostFormMUI: React.FC<PostFormUIProps> = ({
   handleChange,
   handleSubmit,
+  postTitle,
+  postContent
 }) => {
   const classes = useStyles()
   return (
@@ -36,6 +37,7 @@ const PostFormMUI: React.FC<PostFormUIProps> = ({
             id="title-input"
             label="Title"
             placeholder="Title"
+            value={postTitle}
             onChange={handleChange('postTitle')}
           />
         </div>
@@ -46,6 +48,7 @@ const PostFormMUI: React.FC<PostFormUIProps> = ({
             id="content-input"
             label="Contnet"
             placeholder="Contnet"
+            value={postContent}
             variant="outlined"
             onChange={handleChange('postContent')}
             multiline
