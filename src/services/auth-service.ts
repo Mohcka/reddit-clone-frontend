@@ -62,7 +62,6 @@ interface jwtResponseDTO {
 export class JwtAuthService implements IAuthService {
   /** Url used to communcicate with server for authorization */
   private readonly authUrl: string
-  private token: string = ""
   private headers: Headers = new Headers()
 
   constructor(private authPathsConfig: IAuthPaths) {
