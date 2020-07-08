@@ -26,7 +26,6 @@ const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   // TODO: check in with the server on every request of a private route
   //       in case a token has expired
   useEffect(() => {
-    console.log(isAuthenticated)
   }, [])
 
   return (
