@@ -5,12 +5,15 @@ import { ApiServiceContext } from '../../context/ApiContext'
 import { ApiWebService } from '../../../services/generic-service'
 import { useParams, useHistory } from 'react-router-dom'
 import { RoutesConfig } from '../../../config/routes-config'
+import { PostContent } from '../../../models/posts/post-content'
 
 const EditPost = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const { postService } = useContext(ApiServiceContext)
   const [post, setPost] = useState<PostModel>({
+    id: '',
+    userId: '',
     postTitle: '',
     postContent: '',
   })
@@ -38,7 +41,7 @@ const EditPost = () => {
       })
   }
 
-  return <PostForm {...post} handleSubmit={handleSumbit} />
+  return <PostForm post={post} handleSubmit={handleSumbit} />
 }
 
 export default EditPost

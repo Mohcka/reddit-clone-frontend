@@ -5,27 +5,27 @@ import { AuthContext } from '../context/AuthContext'
 import { useHistory } from 'react-router-dom'
 import { RoutesConfig } from '../../config/routes-config'
 
-export interface PostUIProps extends PostModel {
+export interface PostUIProps {
+  post: PostModel
   canEdit: boolean,
   editRedirectHandler: () => void,
 }
 
-const Post: React.FC<PostModel> = ({postTitle, postContent, userId, id}) => {
+const Post: React.FC<PostModel> = (post) => {
   const history = useHistory();
   const {isAuthenticated, userInfo} = useContext(AuthContext)
 
-  const postData = {postTitle, postContent}
 
   // A user can edit their own post
-  const canEdit = userId === userInfo.userId && isAuthenticated
+  const canEdit = post.userId === userInfo.userId && isAuthenticated
 
   const editRedirectHandler = () => {
-    history.push(`${RoutesConfig.posts.edit}/${id}`)
+    history.push(`${RoutesConfig.posts.edit}/${post.id}`)
   }
 
 
   return (
-    <PostMUI {...postData} canEdit={canEdit} editRedirectHandler={editRedirectHandler} />
+    <PostMUI post={post} canEdit={canEdit} editRedirectHandler={editRedirectHandler} />
   )
 }
 

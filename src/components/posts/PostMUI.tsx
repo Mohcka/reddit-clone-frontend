@@ -22,8 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * TODO: figure out how to docoument destructured object
  */
 const PostMUI: React.FC<PostUIProps> = ({
-  postTitle,
-  postContent,
+  post,
   canEdit,
   editRedirectHandler,
 }) => {
@@ -31,8 +30,8 @@ const PostMUI: React.FC<PostUIProps> = ({
 
   return (
     <Paper className={classes.paper}>
-      <h4>{postTitle}</h4>
-      <div>{postContent}</div>
+      <h4>{post.postTitle}</h4>
+      <div>{post.postContent}</div>
       {/* Display edit button if user can edit */}
       {canEdit ? (
         <Button

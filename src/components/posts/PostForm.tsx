@@ -4,8 +4,10 @@ import { PostModel } from '../../models/post-model'
 import { ApiServiceContext } from '../context/ApiContext'
 import { ApiWebService } from '../../services/generic-service'
 import { useHistory } from 'react-router'
+import { PostContent } from '../../models/posts/post-content'
 
-export type PostFormProps = Partial<PostModel> & {
+export type PostFormProps =  {
+  post: PostModel
   /**
    * Submission method provided by the parent
    * Returns a promise so the component can act on
@@ -15,40 +17,33 @@ export type PostFormProps = Partial<PostModel> & {
 }
 
 /** Expect properties for the PostForm container to pass to it's UI component */
-export type PostFormUIProps = Partial<PostModel> & {
+export type PostFormUIProps = Partial<PostContent> & {
   submitted: boolean
   handleChange: (
-    prop: keyof PostModel
+    prop: keyof PostContent
   ) => (e: React.ChangeEvent<HTMLInputElement>) => void
   handleSubmit: () => void
 }
 
 const PostForm: React.FC<PostFormProps> = ({
-  postTitle,
-  postContent,
+  post,
   handleSubmit,
 }) => {
-  const [postData, setPostData] = useState<PostModel & { submitted: boolean }>({
-    postTitle: postTitle || '',
-    postContent: postContent || '',
-    submitted: false,
-  })
+  
+  const [postData, setPostData] = useState<PostModel>(post)
+  const [submitted, setSubmitted] = useState(false)
 
   // Update contents of fields if parent component changes them
   useEffect(() => {
-    setPostData({
-      ...postData,
-      postTitle: postTitle || '',
-      postContent: postContent || '',
-    })
-  }, [postTitle, postContent])
+    setPostData(post)
+  }, [post])
 
   const _handleSubmit = () => {
     console.log(postData)
 
     // validate
     if (postData.postContent.length === 0 || postData.postTitle.length === 0) {
-      // TODO: validate on frontend
+      // TODO: display validation on frontend
       console.log('Please enter valid data')
       return
     }
@@ -75,7 +70,7 @@ const PostForm: React.FC<PostFormProps> = ({
       {...postData}
       handleChange={handleChange}
       handleSubmit={_handleSubmit}
-      submitted={postData.submitted}
+      submitted={submitted}
     />
   )
 }
