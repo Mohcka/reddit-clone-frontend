@@ -19,20 +19,32 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 /** Dummy component for login UI using Material-UI */
-const LoginMUI: React.FC<UILoginProps> = ({handleAuthenticate}) => {
-  const classes = useStyles();
+const LoginMUI: React.FC<UILoginProps> = ({
+  handleAuthenticate,
+  handleChange,
+  loginCredentials,
+}) => {
+  const classes = useStyles()
 
   return (
     <Container>
       <Typography variant="h2">Login</Typography>
 
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField id="userName" variant="outlined" label="Username" />
+        <TextField
+          id="userName"
+          variant="outlined"
+          label="Username"
+          value={loginCredentials.username}
+          onChange={handleChange('username')}
+        />
         <TextField
           id="password"
           variant="outlined"
           type="password"
           label="Password"
+          value={loginCredentials.password}
+          onChange={handleChange('password')}
         />
 
         <br />

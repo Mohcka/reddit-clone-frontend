@@ -2,13 +2,14 @@ import axios from 'axios'
 import { TokenLocalStorage } from '../utils/token-storage'
 import { AuthenticateResponseDTO } from '../models/dto/authenticate-response-dto'
 import { UserInfoResponseDTO } from '../models/dto/user-info-response-dto'
+import { UserCredentialsRequestDTO } from '../models/dto/user-credentials-request-dto'
 
 export interface IAuthService {
   /**
    * Attempts to authenticate the user
    * @param cb callback to run after user has been authed
    */
-  authenticate(): Promise<any>
+  authenticate(loginCredentials: UserCredentialsRequestDTO): Promise<any>
   getUser(): Promise<UserInfoResponseDTO>
   /**
    * De-authenticates user
@@ -85,12 +86,9 @@ export class JwtAuthService implements IAuthService {
     this.headers.append('Accept', 'application/json')
   }
 
-  authenticate(): Promise<AuthenticateResponseDTO> {
+  authenticate(loginCredentials: UserCredentialsRequestDTO): Promise<AuthenticateResponseDTO> {
     return axios
-      .post<AuthenticateResponseDTO>(`${this.authUrl}`, {
-        username: 'Name',
-        password: 'test',
-      })
+      .post<AuthenticateResponseDTO>(`${this.authUrl}`, loginCredentials)
       .then((resp) => {
         if (resp.status !== 200) throw new Error(resp.statusText)
 
