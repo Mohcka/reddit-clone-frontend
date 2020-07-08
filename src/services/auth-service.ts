@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { TokenLocalStorage } from '../utils/token-storage'
 import { AuthenticateResponseDTO } from '../models/dto/authenticate-response-dto'
+import { UserInfoResponseDTO } from '../models/dto/user-info-response-dto'
 
 export interface IAuthService {
   /**
@@ -48,6 +49,12 @@ export class FakeAuthService implements IAuthService {
     })
   }
 
+  getUser(): Promise<UserInfoResponseDTO> {
+    return new Promise((res) => {
+      res({ userId: 'id', userName: 'username' })
+    })
+  }
+
   signout() {
     return new Promise((res) => {
       this.isAuthenticated = false
@@ -90,10 +97,20 @@ export class JwtAuthService implements IAuthService {
         // Store token in local storage
         TokenLocalStorage.storeToken(resp.data.token)
         // From this point, axios will authorize with received token
-        axios.defaults.headers['Authorization'] = `Bearer ${TokenLocalStorage.getToken()}`
+        axios.defaults.headers[
+          'Authorization'
+        ] = `Bearer ${TokenLocalStorage.getToken()}`
         return resp.data
       })
       .then((data) => data)
+  }
+
+  getUser(): Promise<UserInfoResponseDTO> {
+    return axios.get(this.authUrl).then((resp) => {
+      if (resp.status !== 200) throw new Error(resp.statusText)
+
+      return resp.data
+    })
   }
 
   authCheck() {}
