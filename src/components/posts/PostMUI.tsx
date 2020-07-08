@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * @param param.postTitle
  * TODO: figure out how to docoument destructured object
  */
-const Post: React.FC<PostModel> = ({ postTitle, postContent }) => {
+const PostMUI: React.FC<PostModel> = ({ postTitle, postContent }) => {
   const classes = useStyles()
 
   return (
@@ -30,4 +30,4 @@ const Post: React.FC<PostModel> = ({ postTitle, postContent }) => {
   )
 }
 
-export default Post
+export default PostMUI
