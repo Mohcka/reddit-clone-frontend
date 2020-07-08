@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { TokenLocalStorage } from '../utils/token-storage'
+import { AuthenticateResponseDTO } from '../models/dto/authenticate-response-dto'
 
 export interface IAuthService {
   /**
@@ -7,6 +8,7 @@ export interface IAuthService {
    * @param cb callback to run after user has been authed
    */
   authenticate(): Promise<any>
+  getUser(): Promise<UserInfoResponseDTO>
   /**
    * De-authenticates user
    * @param cb callback to run after user has been signed out
@@ -76,9 +78,9 @@ export class JwtAuthService implements IAuthService {
     this.headers.append('Accept', 'application/json')
   }
 
-  authenticate(): Promise<jwtResponseDTO> {
+  authenticate(): Promise<AuthenticateResponseDTO> {
     return axios
-      .post<jwtResponseDTO>(`${this.authUrl}`, {
+      .post<AuthenticateResponseDTO>(`${this.authUrl}`, {
         username: 'Name',
         password: 'test',
       })
