@@ -39,4 +39,5 @@ const App = () => {
 export const launch = () => {
   if (document.getElementById('app'))
     ReactDOM.render(<App />, document.getElementById('app'))
+  else console.error('No #app element found, app did not launch')
 }
