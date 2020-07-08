@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Routes } from './routes/Routes'
 import { BrowserRouter as Router, useHistory } from 'react-router-dom'
 import Navbar from './components/sections/Navbar'
-import { AuthContext, jwtAuthService } from './components/context/AuthContext'
+import { AuthContext, jwtAuthService, UserInfo } from './components/context/AuthContext'
 import { TokenLocalStorage } from './utils/token-storage'
 import { AxiostHttpClientHelper } from './utils/axios-interceptors-herlper'
 
@@ -12,17 +12,22 @@ const App = () => {
 
   // Set global state for context
   const [isAuthenticated, setIsAuthenticated] = useState(TokenLocalStorage.isAuthenticated());
-  const value = {isAuthenticated, setIsAuthenticated, authService: jwtAuthService}
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    userId: null,
+    userName: null
+  })
+  const globalAuthValue = {isAuthenticated, setIsAuthenticated, userInfo, setUserInfo, authService: jwtAuthService}
 
   // Setup http client for handling token authentication
   // before starting application
   AxiostHttpClientHelper.staticInitAxiosTokenHandling(() => {
+    // Handle condition where token is invalid
     setIsAuthenticated(false)
     history.push('/')
   })
 
     return (
-      <AuthContext.Provider value={value}>
+      <AuthContext.Provider value={globalAuthValue}>
         <Router>
           <Navbar />
           <Routes />

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 
 import { AuthContext } from '../context/AuthContext'
 import LoginMUI from './LoginMUI'
+import { AuthenticateResponseDTO } from '../../models/dto/authenticate-response-dto'
 
 /** Login props for dummy-display login compoenents */
 export interface UILoginProps {
@@ -20,18 +21,21 @@ const Login = () => {
   const { from } = location.state || { from: { pathname: '/' } }
 
   // Take global auth context
-  const { isAuthenticated, setIsAuthenticated, authService } = useContext(
-    AuthContext
-  )
+  const {
+    isAuthenticated,
+    setIsAuthenticated,
+    authService,
+    setUserInfo,
+  } = useContext(AuthContext)
 
   const authenticate = () => {
     authService
       .authenticate()
-      .then(() => {
+      .then((data: AuthenticateResponseDTO) => {
         // on promise success, authorize
         Swal.fire('Logged in')
         setIsAuthenticated(true)
-        console.log(isAuthenticated)
+        setUserInfo({ userId: data.id, userName: data.username })
         // Go back to last known page or home
         history.replace(from)
       })

@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import RedditIcon from '@material-ui/icons/Reddit'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import SignoutButtonMUI from '../auth/SignoutButtonMUI'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import { NavbarDummyProps } from './Navbar'
@@ -28,8 +31,21 @@ const useStyles = makeStyles(() =>
   })
 )
 
-const NavbarMUI: React.FC<NavbarDummyProps> = ({ isAuthenticated }) => {
+const NavbarMUI: React.FC<NavbarDummyProps> = ({
+  isAuthenticated,
+  userInfo,
+}) => {
   const classes = useStyles()
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+  const handleUserMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(e.currentTarget)
+  }
+
+  const handleUserMenuClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <div className={classes.root}>
@@ -66,7 +82,27 @@ const NavbarMUI: React.FC<NavbarDummyProps> = ({ isAuthenticated }) => {
               </Button>
             </Link>
           ) : (
-            <SignoutButtonMUI />
+            <>
+              <Button
+                color="inherit"
+                aria-controls="user-menu"
+                aria-haspopup="true"
+                onClick={handleUserMenuClick}
+                startIcon={<ArrowDropDownIcon />}
+              >
+                Hello {userInfo.userName}
+              </Button>
+              <Menu
+                id="user-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleUserMenuClose}
+              >
+                <MenuItem onClick={handleUserMenuClose}>
+                  <SignoutButtonMUI />
+                </MenuItem>
+              </Menu>
+            </>
           )}
         </Toolbar>
       </AppBar>
