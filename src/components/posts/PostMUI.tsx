@@ -3,6 +3,7 @@ import { PostModel } from '../../models/post-model'
 
 import Paper from '@material-ui/core/Paper'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import { PostUIProps } from './Post'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * @param param.postTitle
  * TODO: figure out how to docoument destructured object
  */
-const PostMUI: React.FC<PostModel> = ({ postTitle, postContent }) => {
+const PostMUI: React.FC<PostUIProps> = ({ postTitle, postContent }) => {
   const classes = useStyles()
 
   return (
