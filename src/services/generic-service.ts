@@ -5,7 +5,9 @@ import axios, { AxiosResponse } from 'axios'
  */
 export interface ApiWebService<T> {
   getAll(): Promise<T[]>
+  get(id: string): Promise<T>
   create(data: T): Promise<void>
+  update(data: T): Promise<void>
 }
 
 // TODO: add docs
@@ -28,7 +30,15 @@ export default abstract class BaseService<T> implements ApiWebService<T> {
       .then((resp: AxiosResponse<Array<T>>) => resp.data)
   }
 
+  get(id: string): Promise<T> {
+    return axios.get<T>(`${this.apiUrl}/${id}`).then((resp) => resp.data)
+  }
+
   create(data: T): Promise<void> {
     return axios.post(this.apiUrl, data)
+  }
+
+  update(data: T): Promise<void> {
+    return axios.put(this.apiUrl, data)
   }
 }
