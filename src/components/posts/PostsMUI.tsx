@@ -3,9 +3,9 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 
-import Post from './PostMUI'
 import { PostsDummyProps } from './Posts'
 import { PostModel } from '../../models/post-model'
+import Post from './Post'
 
 const useStyles = makeStyles(() =>
   createStyles({
