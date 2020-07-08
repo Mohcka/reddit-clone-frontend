@@ -1,14 +1,21 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import PostFormMUI from './PostFormMUI'
 import { PostModel } from '../../models/post-model'
 import { ApiServiceContext } from '../context/ApiContext'
 import { ApiWebService } from '../../services/generic-service'
 import { useHistory } from 'react-router'
 
-export type PostFormProps = Partial<PostModel>
+export type PostFormProps = Partial<PostModel> & {
+  /**
+   * Submission method provided by the parent
+   * Returns a promise so the component can act on
+   * a succesful submission
+   */
+  handleSubmit: (postData: PostModel) => Promise<void>
+}
 
 /** Expect properties for the PostForm container to pass to it's UI component */
-export type PostFormUIProps = Partial<PostFormProps> & {
+export type PostFormUIProps = Partial<PostModel> & {
   submitted: boolean
   handleChange: (
     prop: keyof PostModel
@@ -16,31 +23,39 @@ export type PostFormUIProps = Partial<PostFormProps> & {
   handleSubmit: () => void
 }
 
-const PostForm: React.FC<PostFormProps> = () => {
-  const history = useHistory()
-  const { postService } = useContext(ApiServiceContext)
+const PostForm: React.FC<PostFormProps> = ({
+  postTitle,
+  postContent,
+  handleSubmit,
+}) => {
   const [postData, setPostData] = useState<PostModel & { submitted: boolean }>({
-    postTitle: '',
-    postContent: '',
+    postTitle: postTitle || '',
+    postContent: postContent || '',
     submitted: false,
   })
 
-  const handleSubmit = () => {
+  // Update contents of fields if parent component changes them
+  useEffect(() => {
+    setPostData({
+      ...postData,
+      postTitle: postTitle || '',
+      postContent: postContent || '',
+    })
+  }, [postTitle, postContent])
+
+  const _handleSubmit = () => {
     console.log(postData)
 
     // validate
     if (postData.postContent.length === 0 || postData.postTitle.length === 0) {
+      // TODO: validate on frontend
       console.log('Please enter valid data')
       return
     }
 
-    postService
-      .create(postData)
-      .then(() => {
-        setPostData({ ...postData, postContent: '', postTitle: '' })
-        history.push('/')
-      })
-      .catch((err) => console.error(err))
+    handleSubmit(postData).then(() => {
+      setPostData({ ...postData, postContent: '', postTitle: '' })
+    })
   }
 
   /**
@@ -59,7 +74,7 @@ const PostForm: React.FC<PostFormProps> = () => {
     <PostFormMUI
       {...postData}
       handleChange={handleChange}
-      handleSubmit={handleSubmit}
+      handleSubmit={_handleSubmit}
       submitted={postData.submitted}
     />
   )

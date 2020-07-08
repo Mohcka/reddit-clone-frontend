@@ -1,8 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PostForm from '../posts/PostForm'
+import { ApiServiceContext } from '../context/ApiContext'
+import { PostModel } from '../../models/post-model'
+import { useHistory } from 'react-router-dom'
 
 const CreatePost = () => {
-  return <PostForm />
+  const history = useHistory();
+  const {postService} = useContext(ApiServiceContext)
+
+  const handleSubmit = (postData: PostModel) => {
+    return postService
+      .create(postData)
+      .then(() => {
+        history.push('/')
+      })
+      .catch((err) => console.error(err))
+  }
+
+  return <PostForm handleSubmit={handleSubmit} />
 }
 
 export default CreatePost
