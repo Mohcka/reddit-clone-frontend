@@ -14,6 +14,7 @@ import {
   ApiServiceContext,
   ApiServices,
 } from '../components/context/ApiContext'
+import EditPost from '../components/pages/posts/EditPost'
 import { RoutesConfig } from '../config/routes-config'
 
 /**
@@ -60,6 +61,10 @@ export const Routes = () => {
 
         <PrivateRoute path="/create-post">
           <CreatePost />
+        </PrivateRoute>
+
+        <PrivateRoute path={`${RoutesConfig.posts.edit}/:id`}>
+          <EditPost />
         </PrivateRoute>
 
         <Route exact path="/">
