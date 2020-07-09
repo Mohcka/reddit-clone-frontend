@@ -10,7 +10,7 @@ import { AuthenticateResponseDTO } from '../../models/dto/authenticate-response-
 import { UserCredentialsRequestDTO } from '../../models/dto/user-credentials-request-dto'
 
 /** Login props for dummy-display login compoenents */
-export interface UILoginProps {
+export interface LoginUIProps {
   /**
    * Credentials used to authenticate a user
    */

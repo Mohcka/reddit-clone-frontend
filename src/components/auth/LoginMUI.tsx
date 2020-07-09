@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
-import { UILoginProps } from './Login'
+import { LoginUIProps } from './Login'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 /** Dummy component for login UI using Material-UI */
-const LoginMUI: React.FC<UILoginProps> = ({
+const LoginMUI: React.FC<LoginUIProps> = ({
   handleAuthenticate,
   handleChange,
   loginCredentials,
