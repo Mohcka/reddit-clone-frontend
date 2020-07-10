@@ -16,10 +16,17 @@ export interface LoginUIProps {
    */
   loginCredentials: UserCredentialsRequestDTO
   handleAuthenticate: () => void
-  handleChange: (prop: keyof UserCredentialsRequestDTO) => (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleChange: (
+    prop: keyof UserCredentialsRequestDTO
+  ) => (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Login = () => {
+/** Props for the Login Container component */
+export interface LoginProps {
+  handleAuthentication: (loginCredentials: UserCredentialsRequestDTO) => void
+}
+
+const Login: React.FC<LoginProps> = ({ handleAuthentication }) => {
   // Gather info for redirecting user
   const history = useHistory()
   const location = useLocation<{ from: Location }>()
@@ -48,35 +55,16 @@ const Login = () => {
     setLoginCredentials({ ...loginCredentials, [prop]: e.currentTarget.value })
   }
 
-  const authenticate = () => {
-    authService
-      .authenticate(loginCredentials)
-      .then((data: AuthenticateResponseDTO) => {
-        // on promise success, authorize
-        Swal.fire('Logged in')
-        setIsAuthenticated(true)
-        setUserInfo({ userId: data.id, userName: data.username })
-        // Go back to last known page or home
-        history.replace(from)
-      })
-      .catch((err) => {
-        // Display error to client
-        Swal.fire({
-          icon: 'error',
-          title: 'An Error has occured',
-          text: `${err}`,
-        })
-      })
+  const _handleAuthentication = () => {
+    handleAuthentication(loginCredentials)
   }
 
-  return !isAuthenticated ? (
+  return (
     <LoginMUI
-      handleAuthenticate={authenticate}
+      handleAuthenticate={_handleAuthentication}
       loginCredentials={loginCredentials}
       handleChange={handleChange}
     />
-  ) : (
-    <Redirect to="/" />
   )
 }
 

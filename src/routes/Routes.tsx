@@ -16,6 +16,7 @@ import {
 } from '../components/context/ApiContext'
 import EditPost from '../components/pages/posts/EditPost'
 import { RoutesConfig } from '../config/routes-config'
+import LoginPage from '../components/pages/auth/LoginPage'
 
 /**
  * Specialized route for redirecting user to login screen if they
@@ -52,7 +53,7 @@ export const Routes = () => {
     <ApiServiceContext.Provider value={ApiServices}>
       <Switch>
         <Route path="/login">
-          <Login />
+          <LoginPage />
         </Route>
 
         <PrivateRoute path="/about">
