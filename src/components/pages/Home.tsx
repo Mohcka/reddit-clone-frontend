@@ -32,7 +32,7 @@ const Home = () => {
   return (
     <Container>
       <Typography variant="h4" className={classes.title}>
-        Here's some posts
+        Welcome
       </Typography>
       <Link to="/create-post" >
         <Button variant="contained" color="primary" className={classes.button}>

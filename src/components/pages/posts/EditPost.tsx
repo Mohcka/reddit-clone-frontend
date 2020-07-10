@@ -1,4 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
+
+import Typography from '@material-ui/core/Typography'
+import Container from '@material-ui/core/Container'
+
 import PostForm from '../../posts/PostForm'
 import { PostModel } from '../../../models/post-model'
 import { ApiServiceContext } from '../../context/ApiContext'
@@ -20,7 +24,6 @@ const EditPost = () => {
   })
 
   const taostContext = useContext(ToastContext)
-
 
   // Fetched post data to fill in the fields
   useEffect(() => {
@@ -54,7 +57,14 @@ const EditPost = () => {
       })
   }
 
-  return <PostForm post={post} handleSubmit={handleSumbit} />
+  return (
+    <>
+      <Container>
+        <Typography variant="h4">Edit</Typography>
+      </Container>
+      <PostForm post={post} handleSubmit={handleSumbit} />
+    </>
+  )
 }
 
 export default EditPost

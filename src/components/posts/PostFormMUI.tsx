@@ -30,7 +30,6 @@ const PostFormMUI: React.FC<PostFormUIProps> = ({
   const classes = useStyles()
   return (
     <Container className={classes.root}>
-      <Typography variant="h4">Make a post</Typography>
       <form noValidate autoComplete="off">
         <div>
           <TextField
