@@ -6,6 +6,7 @@ import { ApiWebService } from '../../../services/generic-service'
 import { useParams, useHistory } from 'react-router-dom'
 import { RoutesConfig } from '../../../config/routes-config'
 import { PostContent } from '../../../models/posts/post-content'
+import { ToastContext } from '../../context/toast-context'
 
 const EditPost = () => {
   const history = useHistory()
@@ -17,6 +18,9 @@ const EditPost = () => {
     postTitle: '',
     postContent: '',
   })
+
+  const taostContext = useContext(ToastContext)
+
 
   // Fetched post data to fill in the fields
   useEffect(() => {
@@ -31,10 +35,19 @@ const EditPost = () => {
     return postService
       .update(postData)
       .then(() => {
+        taostContext.setIsToastOpen({
+          isOpen: true,
+          message: 'Edit Successful!',
+          type: 'success',
+        })
         history.push(RoutesConfig.home)
       })
       .catch((err) => {
-        console.error(err)
+        taostContext.setIsToastOpen({
+          isOpen: true,
+          message: 'An Error Occured',
+          type: 'error',
+        })
         // throw error so the childcomponent doesn't
         // resolve
         throw new Error(err)
