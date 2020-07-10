@@ -6,8 +6,8 @@ import { ApiWebService } from '../../services/generic-service'
 import { useHistory } from 'react-router'
 import { PostContent } from '../../models/posts/post-content'
 
-export type PostFormProps =  {
-  post: PostModel
+export type PostFormProps = {
+  post?: PostModel
   /**
    * Submission method provided by the parent
    * Returns a promise so the component can act on
@@ -25,18 +25,21 @@ export type PostFormUIProps = Partial<PostContent> & {
   handleSubmit: () => void
 }
 
-const PostForm: React.FC<PostFormProps> = ({
-  post,
-  handleSubmit,
-}) => {
-  
-  const [postData, setPostData] = useState<PostModel>(post)
+const PostForm: React.FC<PostFormProps> = ({ post, handleSubmit }) => {
+  const [postData, setPostData] = useState<PostModel>(post || {
+    id: '',
+    userId: '',
+    postContent: '',
+    postTitle: ''
+  })
   const [submitted, setSubmitted] = useState(false)
 
   // Update contents of fields if parent component changes them
-  useEffect(() => {
-    setPostData(post)
-  }, [post])
+  if (post) {
+    useEffect(() => {
+      setPostData(post)
+    }, [post])
+  }
 
   const _handleSubmit = () => {
     console.log(postData)
@@ -59,6 +62,7 @@ const PostForm: React.FC<PostFormProps> = ({
   const handleChange = (prop: keyof PostModel) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    // console.log(e.target.value)
     // Take value being changed
     const value = e.target.value
     // Apply it to the state

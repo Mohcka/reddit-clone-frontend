@@ -23,7 +23,7 @@ const CreatePost = () => {
       .catch((err) => console.error(err))
   }
 
-  return <PostForm post={emptyPost} handleSubmit={handleSubmit} />
+  return <PostForm handleSubmit={handleSubmit} />
 }
 
 export default CreatePost
