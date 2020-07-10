@@ -7,12 +7,6 @@ import { useHistory } from 'react-router-dom'
 const CreatePost = () => {
   const history = useHistory();
   const {postService} = useContext(ApiServiceContext)
-  const emptyPost: PostModel = {
-    id: '',
-    userId: '',
-    postContent: '',
-    postTitle: ''
-  }
 
   const handleSubmit = (postData: PostModel) => {
     return postService
