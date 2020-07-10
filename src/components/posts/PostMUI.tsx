@@ -3,6 +3,7 @@ import { PostModel } from '../../models/post-model'
 
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import { PostUIProps } from './Post'
 
@@ -30,8 +31,8 @@ const PostMUI: React.FC<PostUIProps> = ({
 
   return (
     <Paper className={classes.paper}>
-      <h4>{post.postTitle}</h4>
-      <div>{post.postContent}</div>
+      <Typography variant="h6">{post.postTitle}</Typography>
+      <Typography>{post.postContent}</Typography>
       {/* Display edit button if user can edit */}
       {canEdit ? (
         <Button
