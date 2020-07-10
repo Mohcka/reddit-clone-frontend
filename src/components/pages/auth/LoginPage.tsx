@@ -3,12 +3,13 @@ import { useHistory, useLocation, Redirect } from 'react-router-dom'
 import { Location } from 'history'
 import { AuthContext } from '../../context/AuthContext'
 
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
 
 import { UserCredentialsRequestDTO } from '../../../models/dto/user-credentials-request-dto'
 import { AuthenticateResponseDTO } from '../../../models/dto/authenticate-response-dto'
 import Login from '../../auth/Login'
 import { RoutesConfig } from '../../../config/routes-config'
+import { ToastContext } from '../../context/toast-context'
 
 const LoginPage = () => {
   const history = useHistory()
@@ -23,12 +24,21 @@ const LoginPage = () => {
     setUserInfo,
   } = useContext(AuthContext)
 
-  const handleAuthentication = (loginCredentials: UserCredentialsRequestDTO) => {
+  const toastContext = useContext(ToastContext)
+
+  const handleAuthentication = (
+    loginCredentials: UserCredentialsRequestDTO
+  ) => {
     authService
       .authenticate(loginCredentials)
       .then((data: AuthenticateResponseDTO) => {
         // on promise success, authorize
-        Swal.fire('Logged in')
+        // Swal.fire('Logged in')
+        toastContext.setIsToastOpen({
+          isOpen: true,
+          message: "You're Now Logged In!",
+          type: 'success',
+        })
         setIsAuthenticated(true)
         setUserInfo({ userId: data.id, userName: data.username })
         // Go back to last known page or home
@@ -36,11 +46,16 @@ const LoginPage = () => {
       })
       .catch((err) => {
         // Display error to client
-        Swal.fire({
-          icon: 'error',
-          title: 'An Error has occured',
-          text: `${err}`,
+        toastContext.setIsToastOpen({
+          isOpen: true,
+          message: 'Invalid Credentials',
+          type: 'error',
         })
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'An Error has occured',
+        //   text: `${err}`,
+        // })
       })
   }
 

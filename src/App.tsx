@@ -11,6 +11,8 @@ import {
 import { TokenLocalStorage } from './utils/token-storage'
 import { AxiostHttpClientHelper } from './utils/axios-interceptors-herlper'
 import { UserInfoResponseDTO } from './models/dto/user-info-response-dto'
+import SnackBar from './components/sections/SnackBar'
+import { ToastContext, IsToastOpenType } from './components/context/toast-context'
 
 const App = () => {
   const history = useHistory()
@@ -31,7 +33,17 @@ const App = () => {
     authService: jwtAuthService,
   }
 
-  
+  // * Setup toast context
+  const [isToastOpen, setIsToastOpen] = useState<IsToastOpenType>({
+    isOpen: false,
+    message: '',
+    type: undefined
+  })
+
+  const globalToastValue = {
+    isToastOpen,
+    setIsToastOpen,
+  }
 
   // Setup http client for handling token authentication
   // before starting application
@@ -51,10 +63,13 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={globalAuthValue}>
+      <ToastContext.Provider value={globalToastValue}>
+      <SnackBar isSnackbarOpen={isToastOpen} setSnackbarIsOpen={setIsToastOpen} />
       <Router>
         <Navbar />
         <Routes />
       </Router>
+      </ToastContext.Provider>
     </AuthContext.Provider>
   )
 }
