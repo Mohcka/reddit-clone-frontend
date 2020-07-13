@@ -3,5 +3,6 @@ export const RoutesConfig = {
   posts: {
     create: '/post-create',
     edit: '/post-edit',
+    show: '/show-post'
   },
 }
