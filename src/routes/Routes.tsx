@@ -17,6 +17,7 @@ import {
 import EditPost from '../components/pages/posts/EditPost'
 import { RoutesConfig } from '../config/routes-config'
 import LoginPage from '../components/pages/auth/LoginPage'
+import ShowPost from '../components/pages/posts/ShowPost'
 
 /**
  * Specialized route for redirecting user to login screen if they
@@ -28,8 +29,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
 
   // TODO: check in with the server on every request of a private route
   //       in case a token has expired
-  useEffect(() => {
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <Route
@@ -59,6 +59,8 @@ export const Routes = () => {
         <PrivateRoute path="/about">
           <About />
         </PrivateRoute>
+
+        <Route path={`${RoutesConfig.posts.show}/:id`} component={ShowPost} />
 
         <PrivateRoute path="/create-post">
           <CreatePost />
