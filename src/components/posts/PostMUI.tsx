@@ -5,12 +5,16 @@ import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
-import { PostUIProps } from './Post'
+import { PostProps } from './Post'
+import VoteButtons from '../sections/VoteButtons'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       padding: theme.spacing(2),
+    },
+    title: {
+      cursor: 'pointer',
     },
   })
 )
@@ -22,17 +26,36 @@ const useStyles = makeStyles((theme: Theme) =>
  * @param param.postTitle
  * TODO: figure out how to docoument destructured object
  */
-const PostMUI: React.FC<PostUIProps> = ({
-  post,
+const PostMUI: React.FC<PostProps> = ({
+  title,
+  content,
+  userName,
   canEdit,
   editRedirectHandler,
+  showPostRedirectHandler,
 }) => {
   const classes = useStyles()
 
   return (
     <Paper className={classes.paper}>
-      <Typography variant="h6">{post.postTitle}</Typography>
-      <Typography>{post.postContent}</Typography>
+      <div>
+        <VoteButtons />
+      </div>
+      <div>
+      {title ? (
+        <Typography
+          onClick={showPostRedirectHandler}
+          variant="h6"
+          className={classes.title}
+        >
+          {title}
+        </Typography>
+      ) : null}
+
+      <Typography>By {userName}</Typography>
+
+      <Typography>{content}</Typography>
+
       {/* Display edit button if user can edit */}
       {canEdit ? (
         <Button
@@ -43,6 +66,7 @@ const PostMUI: React.FC<PostUIProps> = ({
           Edit
         </Button>
       ) : null}
+      </div>
     </Paper>
   )
 }

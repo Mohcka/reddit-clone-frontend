@@ -1,31 +1,46 @@
 import React, { useContext } from 'react'
 import PostMUI from './PostMUI'
 import { PostModel } from '../../models/post-model'
-import { AuthContext } from '../context/AuthContext'
-import { useHistory } from 'react-router-dom'
-import { RoutesConfig } from '../../config/routes-config'
+import { CommentModel } from '../../models/comment-model'
+import { PostType } from '../../models/post-type'
 
-export interface PostUIProps {
-  post: PostModel
-  canEdit: boolean,
-  editRedirectHandler: () => void,
+export interface PostProps {
+  postType: PostType,
+  title?: string
+  userName: string
+  content: string
+  canEdit?: boolean
+  editRedirectHandler?: () => void
+  showPostRedirectHandler?: () => void
 }
 
-const Post: React.FC<PostModel> = (post) => {
-  const history = useHistory();
-  const {isAuthenticated, userInfo} = useContext(AuthContext)
-
-
-  // A user can edit their own post
-  const canEdit = post.userId === userInfo.userId && isAuthenticated
-
-  const editRedirectHandler = () => {
-    history.push(`${RoutesConfig.posts.edit}/${post.id}`)
+const Post: React.FC<PostProps> = ({
+  title,
+  content,
+  userName,
+  canEdit,
+  postType,
+  editRedirectHandler,
+  showPostRedirectHandler,
+}) => {
+  const _editRedirectHandler = () => {
+    if (editRedirectHandler) editRedirectHandler()
   }
 
+  const _showPostRedirectHandler = () => {
+    if (showPostRedirectHandler) showPostRedirectHandler()
+  }
 
   return (
-    <PostMUI post={post} canEdit={canEdit} editRedirectHandler={editRedirectHandler} />
+    <PostMUI
+      postType={postType}
+      title={title}
+      content={content}
+      userName={userName}
+      canEdit={canEdit}
+      editRedirectHandler={_editRedirectHandler}
+      showPostRedirectHandler={_showPostRedirectHandler}
+    />
   )
 }
 
