@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import PostFormMUI from './PostFormMUI'
-import { PostModel } from '../../models/post-model'
+import { PostModel, emptyPost } from '../../models/post-model'
 import { ApiServiceContext } from '../context/ApiContext'
 import { ApiWebService } from '../../services/generic-service'
 import { useHistory } from 'react-router'
@@ -26,12 +26,7 @@ export type PostFormUIProps = Partial<PostContent> & {
 }
 
 const PostForm: React.FC<PostFormProps> = ({ post, handleSubmit }) => {
-  const [postData, setPostData] = useState<PostModel>(post || {
-    id: '',
-    userId: '',
-    postContent: '',
-    postTitle: ''
-  })
+  const [postData, setPostData] = useState<PostModel>(post || emptyPost)
   const [submitted, setSubmitted] = useState(false)
 
   // Update contents of fields if parent component changes them

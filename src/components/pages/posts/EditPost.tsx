@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 
 import PostForm from '../../posts/PostForm'
-import { PostModel } from '../../../models/post-model'
+import { PostModel, emptyPost } from '../../../models/post-model'
 import { ApiServiceContext } from '../../context/ApiContext'
 import { ApiWebService } from '../../../services/generic-service'
 import { useParams, useHistory } from 'react-router-dom'
@@ -16,12 +16,7 @@ const EditPost = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const { postService } = useContext(ApiServiceContext)
-  const [post, setPost] = useState<PostModel>({
-    id: '',
-    userId: '',
-    postTitle: '',
-    postContent: '',
-  })
+  const [post, setPost] = useState<PostModel>(emptyPost)
 
   const taostContext = useContext(ToastContext)
 
