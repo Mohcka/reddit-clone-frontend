@@ -68,6 +68,10 @@ export const Routes = () => {
           <AddComment />
         </PrivateRoute>
 
+        <PrivateRoute path={`${RoutesConfig.comments.edit()}`}>
+          <EditComment />
+        </PrivateRoute>
+
         <PrivateRoute path={`${RoutesConfig.comments.edit}/:id`}>
           <EditComment />
         </PrivateRoute>

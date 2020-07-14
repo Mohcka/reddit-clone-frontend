@@ -7,13 +7,15 @@ import Button from '@material-ui/core/Button'
 import { AuthContext } from '../../context/AuthContext'
 import { ApiServiceContext } from '../../context/ApiContext'
 import { PostWithCommentsResponseDTO } from '../../../models/posts/post-with-comments-response-dto'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useHistory } from 'react-router-dom'
 import Post from '../../posts/Post'
 import { RoutesConfig } from '../../../config/routes-config'
+import { CommentModel } from '../../../models/comment-model'
 
 const ShowPost = () => {
-  const { id } = useParams<{ id: string }>()
-  const { isAuthenticated } = useContext(AuthContext)
+  const history = useHistory()
+  const { id: postId } = useParams<{ id: string }>()
+  const { isAuthenticated, userInfo } = useContext(AuthContext)
   const { postService } = useContext(ApiServiceContext)
   const [
     postWithComments,
@@ -21,11 +23,15 @@ const ShowPost = () => {
   ] = useState<PostWithCommentsResponseDTO | null>(null)
 
   useEffect(() => {
-    postService.getPostWithComments(id).then((data) => {
+    postService.getPostWithComments(postId).then((data) => {
       console.log(data)
       setpostWithComments(data)
     })
   }, [])
+
+  const editRedirectHandler = (commentId: string) => {
+    history.push(RoutesConfig.comments.edit(commentId, postId))
+  }
 
   return postWithComments ? (
     <Container>
@@ -53,6 +59,8 @@ const ShowPost = () => {
             postScore={comment.numVotes}
             content={comment.userComment}
             userName={comment.username}
+            canEdit={comment.userId === userInfo.userId && isAuthenticated}
+            editRedirectHandler={() => editRedirectHandler(comment.id)}
           />
         ))
       ) : (
