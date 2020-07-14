@@ -20,14 +20,18 @@ const ShowPost = () => {
   ] = useState<PostWithCommentsResponseDTO | null>(null)
 
   useEffect(() => {
-    postService
-      .getPostWithComments(id)
-      .then((data) => setpostWithComments(data))
+    postService.getPostWithComments(id).then((data) => {
+      console.log(data)
+      setpostWithComments(data)
+    })
   }, [])
 
   return postWithComments ? (
     <Container>
       <Post
+        postId={postWithComments.post.id}
+        postType="Post"
+        postScore={postWithComments.post.numVotes}
         title={postWithComments.post.postTitle}
         content={postWithComments.post.postContent}
         userName={postWithComments.post.userName}
@@ -41,6 +45,9 @@ const ShowPost = () => {
         postWithComments.comments.map((comment, key) => (
           <Post
             key={key}
+            postId={comment.id}
+            postType="Comment"
+            postScore={comment.numVotes}
             content={comment.userComment}
             userName={comment.username}
           />

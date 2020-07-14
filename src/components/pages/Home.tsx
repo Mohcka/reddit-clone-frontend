@@ -82,7 +82,10 @@ const Home = () => {
         {posts.map((post: PostModel, key) => (
           <Grid item key={key}>
             <Post
+              postId={post.id}
+              postType="Post"
               title={post.postTitle}
+              postScore={post.numVotes}
               content={post.postContent}
               userName={post.userName}
               canEdit={post.userId === userInfo.userId && isAuthenticated}

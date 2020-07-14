@@ -27,7 +27,7 @@ export default class PostsService extends BaseService<PostModel>
     // Send the vote type in the params because that's what the api is expecting
     // here
     return axios
-      .post<VoteResponseDTO>(`${this.apiUrl}/${id}`, null, {
+      .post<VoteResponseDTO>(`${this.apiUrl}/${id}/vote`, null, {
         params: { voteType: voteType },
       })
       .then((resp) => resp.data)

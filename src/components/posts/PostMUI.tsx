@@ -27,45 +27,54 @@ const useStyles = makeStyles((theme: Theme) =>
  * TODO: figure out how to docoument destructured object
  */
 const PostMUI: React.FC<PostProps> = ({
+  postType,
+  postId,
   title,
-  content,
+  postScore,
   userName,
+  content,
   canEdit,
   editRedirectHandler,
   showPostRedirectHandler,
+  updatePostScore,
 }) => {
   const classes = useStyles()
 
   return (
     <Paper className={classes.paper}>
       <div>
-        <VoteButtons />
+        <VoteButtons
+          postId={postId}
+          postType={postType}
+          updateScore={updatePostScore!}
+        />
       </div>
       <div>
-      {title ? (
-        <Typography
-          onClick={showPostRedirectHandler}
-          variant="h6"
-          className={classes.title}
-        >
-          {title}
-        </Typography>
-      ) : null}
+        {title ? (
+          <Typography
+            onClick={showPostRedirectHandler}
+            variant="h6"
+            className={classes.title}
+          >
+            {title}
+          </Typography>
+        ) : null}
 
-      <Typography>By {userName}</Typography>
+        <Typography>By {userName}</Typography>
+        <Typography>Score: {postScore}</Typography>
 
-      <Typography>{content}</Typography>
+        <Typography>{content}</Typography>
 
-      {/* Display edit button if user can edit */}
-      {canEdit ? (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={editRedirectHandler}
-        >
-          Edit
-        </Button>
-      ) : null}
+        {/* Display edit button if user can edit */}
+        {canEdit ? (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={editRedirectHandler}
+          >
+            Edit
+          </Button>
+        ) : null}
       </div>
     </Paper>
   )
