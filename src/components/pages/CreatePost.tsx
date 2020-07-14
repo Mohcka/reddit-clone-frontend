@@ -5,18 +5,25 @@ import Container from '@material-ui/core/Container'
 
 import PostForm from '../posts/PostForm'
 import { ApiServiceContext } from '../context/ApiContext'
-import { PostModel } from '../../models/post-model'
+import { PostModel, emptyPost } from '../../models/post-model'
 import { useHistory } from 'react-router-dom'
 import { ToastContext } from '../context/toast-context'
+import { PostContent } from '../../models/posts/post-content'
 
 const CreatePost = () => {
   const history = useHistory()
   const { postService } = useContext(ApiServiceContext)
   const taostContext = useContext(ToastContext)
 
-  const handleSubmit = (postData: PostModel) => {
+  const handleSubmit = (newPost: PostModel, submitData: PostContent) => {
+    newPost = {
+      ...newPost,
+      postTitle: submitData.title,
+      postContent: submitData.content,
+    }
+
     return postService
-      .create(postData)
+      .create(newPost)
       .then(() => {
         taostContext.setIsToastOpen({
           isOpen: true,
@@ -42,7 +49,7 @@ const CreatePost = () => {
       <Container>
         <Typography variant="h4">Create a new Post</Typography>
       </Container>
-      <PostForm handleSubmit={handleSubmit} />
+      <PostForm data={emptyPost} hasTitle handleSubmit={handleSubmit} />
     </>
   )
 }

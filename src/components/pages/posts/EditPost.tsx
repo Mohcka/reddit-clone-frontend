@@ -23,15 +23,21 @@ const EditPost = () => {
   // Fetched post data to fill in the fields
   useEffect(() => {
     postService.get(id).then((data) => {
-      console.log(data)
+      // console.log(data)
       setPost(data)
     })
   }, [])
 
-  const handleSumbit = (postData: PostModel) => {
-    console.log(postData)
+  const handleSumbit = (oldPost: PostModel, submitData: PostContent) => {
+    // update contents of sent post
+    const updatedPost: PostModel = {
+      ...oldPost,
+      postContent: submitData.content,
+      postTitle: submitData.title,
+    }
+    
     return postService
-      .update(postData)
+      .update(updatedPost)
       .then(() => {
         taostContext.setIsToastOpen({
           isOpen: true,
@@ -41,6 +47,7 @@ const EditPost = () => {
         history.push(RoutesConfig.home)
       })
       .catch((err) => {
+        console.log(err)
         taostContext.setIsToastOpen({
           isOpen: true,
           message: 'An Error Occured',
@@ -57,7 +64,13 @@ const EditPost = () => {
       <Container>
         <Typography variant="h4">Edit</Typography>
       </Container>
-      <PostForm post={post} handleSubmit={handleSumbit} />
+      <PostForm
+        data={post}
+        hasTitle
+        title={post.postTitle}
+        content={post.postContent}
+        handleSubmit={handleSumbit}
+      />
     </>
   )
 }

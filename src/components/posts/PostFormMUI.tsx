@@ -22,24 +22,27 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 const PostFormMUI: React.FC<PostFormUIProps> = ({
+  hasTitle,
   handleChange,
   handleSubmit,
-  postTitle,
-  postContent
+  title: postTitle,
+  content: postContent,
 }) => {
   const classes = useStyles()
   return (
     <Container className={classes.root}>
       <form noValidate autoComplete="off">
-        <div>
-          <TextField
-            id="title-input"
-            label="Title"
-            placeholder="Title"
-            value={postTitle}
-            onChange={handleChange('postTitle')}
-          />
-        </div>
+        {hasTitle ? (
+          <div>
+            <TextField
+              id="title-input"
+              label="Title"
+              placeholder="Title"
+              value={postTitle}
+              onChange={handleChange('title')}
+            />
+          </div>
+        ) : null}
 
         <div>
           <TextField
@@ -49,7 +52,7 @@ const PostFormMUI: React.FC<PostFormUIProps> = ({
             placeholder="Contnet"
             value={postContent}
             variant="outlined"
-            onChange={handleChange('postContent')}
+            onChange={handleChange('content')}
             multiline
           />
         </div>

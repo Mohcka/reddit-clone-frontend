@@ -1,6 +1,6 @@
 import { PostContent } from './posts/post-content'
 
-export interface PostModel extends PostContent {
+export interface PostModel {
   id: string
   /** Id of the user who made this post */
   userId: string
@@ -8,6 +8,8 @@ export interface PostModel extends PostContent {
   userName: string
   /** The overall status of a post's votes */
   numVotes: number
+  postTitle: string
+  postContent: string
 }
 
 /** Used as a blank template when needed */

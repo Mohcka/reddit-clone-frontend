@@ -7,8 +7,9 @@ import Button from '@material-ui/core/Button'
 import { AuthContext } from '../../context/AuthContext'
 import { ApiServiceContext } from '../../context/ApiContext'
 import { PostWithCommentsResponseDTO } from '../../../models/posts/post-with-comments-response-dto'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Post from '../../posts/Post'
+import { RoutesConfig } from '../../../config/routes-config'
 
 const ShowPost = () => {
   const { id } = useParams<{ id: string }>()
@@ -37,9 +38,11 @@ const ShowPost = () => {
         userName={postWithComments.post.userName}
       />
 
-      <Button color="primary" variant="contained">
-        Add a Comment
-      </Button>
+      <Link to={`${RoutesConfig.comments.create(postWithComments.post.id)}`}>
+        <Button color="primary" variant="contained">
+          Add a Comment
+        </Button>
+      </Link>
 
       {postWithComments.comments.length ? (
         postWithComments.comments.map((comment, key) => (

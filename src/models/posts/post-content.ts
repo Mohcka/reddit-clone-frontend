@@ -1,6 +1,11 @@
 export interface PostContent {
   /** Post's title */
-  postTitle: string
+  title: string
   /** The body of the post */
-  postContent: string
+  content: string
+}
+
+export const emptyPostConent: PostContent = {
+  title: '',
+  content: '',
 }

@@ -18,6 +18,8 @@ import EditPost from '../components/pages/posts/EditPost'
 import { RoutesConfig } from '../config/routes-config'
 import LoginPage from '../components/pages/auth/LoginPage'
 import ShowPost from '../components/pages/posts/ShowPost'
+import { AddComment } from '../components/pages/comments/AddComment'
+import EditComment from '../components/pages/comments/EditComment'
 
 /**
  * Specialized route for redirecting user to login screen if they
@@ -52,14 +54,6 @@ export const Routes = () => {
   return (
     <ApiServiceContext.Provider value={ApiServices}>
       <Switch>
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-
-        <PrivateRoute path="/about">
-          <About />
-        </PrivateRoute>
-
         <Route path={`${RoutesConfig.posts.show}/:id`} component={ShowPost} />
 
         <PrivateRoute path="/create-post">
@@ -68,6 +62,22 @@ export const Routes = () => {
 
         <PrivateRoute path={`${RoutesConfig.posts.edit}/:id`}>
           <EditPost />
+        </PrivateRoute>
+
+        <PrivateRoute path={`${RoutesConfig.comments.create()}`}>
+          <AddComment />
+        </PrivateRoute>
+
+        <PrivateRoute path={`${RoutesConfig.comments.edit}/:id`}>
+          <EditComment />
+        </PrivateRoute>
+
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+
+        <PrivateRoute path="/about">
+          <About />
         </PrivateRoute>
 
         <Route exact path="/">
