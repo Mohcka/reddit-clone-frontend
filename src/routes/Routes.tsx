@@ -9,7 +9,7 @@ import NoMatch from '../components/NoMatch'
 import { AuthContext, fakeAuthService } from '../components/context/AuthContext'
 import { IAuthService, FakeAuthService } from '../services/auth-service'
 import Login from '../components/auth/Login'
-import CreatePost from '../components/pages/CreatePost'
+import CreatePost from '../components/pages/posts/CreatePost'
 import {
   ApiServiceContext,
   ApiServices,
