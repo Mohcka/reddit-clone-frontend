@@ -3,6 +3,7 @@ import { PostModel } from '../../models/post-model'
 
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import { PostProps } from './Post'
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       padding: theme.spacing(2),
+      margin: `${theme.spacing(2)}px 0 `
     },
     title: {
       cursor: 'pointer',
@@ -42,40 +44,42 @@ const PostMUI: React.FC<PostProps> = ({
 
   return (
     <Paper className={classes.paper}>
-      <div>
-        <VoteButtons
-          postId={postId}
-          postType={postType}
-          updateScore={updatePostScore!}
-        />
-      </div>
-      <div>
-        {title ? (
-          <Typography
-            onClick={showPostRedirectHandler}
-            variant="h6"
-            className={classes.title}
-          >
-            {title}
-          </Typography>
-        ) : null}
+      <Grid container>
+        <Grid item>
+          <VoteButtons
+            postId={postId}
+            postType={postType}
+            updateScore={updatePostScore!}
+          />
+        </Grid>
+        <Grid item>
+          {title ? (
+            <Typography
+              onClick={showPostRedirectHandler}
+              variant="h6"
+              className={classes.title}
+            >
+              {title}
+            </Typography>
+          ) : null}
 
-        <Typography>By {userName}</Typography>
-        <Typography>Score: {postScore}</Typography>
+          <Typography>By {userName}</Typography>
+          <Typography>Score: {postScore}</Typography>
 
-        <Typography>{content}</Typography>
+          <Typography>{content}</Typography>
 
-        {/* Display edit button if user can edit */}
-        {canEdit ? (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={editRedirectHandler}
-          >
-            Edit
-          </Button>
-        ) : null}
-      </div>
+          {/* Display edit button if user can edit */}
+          {canEdit ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={editRedirectHandler}
+            >
+              Edit
+            </Button>
+          ) : null}
+        </Grid>
+      </Grid>
     </Paper>
   )
 }
