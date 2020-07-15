@@ -12,6 +12,7 @@ export type IApiProviderContext<T> = ApiWebService<T>
 export const ApiServices = {
   postService: new PostsService(`https://localhost:5001/api/posts`),
   commentService: new CommentService("https://localhost:5001/api/comments"),
+  voteService: new VotesService("https://localhost:5001/api/votes"),
   userService: new UsersService("https://localhost:5001/api/users")
 }
 
