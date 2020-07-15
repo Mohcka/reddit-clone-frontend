@@ -27,12 +27,12 @@ export const VoteButtonGroup: React.FC<VoteButtonGroupProps> = ({
 
   const _handleUserVote = (voteType: VoteType) => {
     // On a succesful vote, update the state to reflect on the UI
-    hanleUserVoteProp(voteType).then(() => {
-      // negate vote if the same vote was selected
-      console.log(`Prev: ${prevUserVote} curr: ${voteType}`)
-      if (prevUserVote === voteType) setUserVote(undefined)
-      else setUserVote(voteType)
-    })
+    hanleUserVoteProp(voteType)
+      .then(() => {
+        if (prevUserVote === voteType) setUserVote(undefined)
+        else setUserVote(voteType)
+      })
+      .catch(() => {})
   }
 
   return (

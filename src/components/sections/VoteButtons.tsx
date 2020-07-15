@@ -44,14 +44,15 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
   // Called whenver a authenticated user clicks on a vote button
   const handleUservVote = (voteType: VoteType) => {
     // reject vote action if not authenticated
-    if (!isAuthenticated)
-      return Promise.reject().then(() =>
-        setIsToastOpen({
-          type: 'error',
-          message: 'You must be logged in first',
-          isOpen: true,
-        })
-      )
+    if (!isAuthenticated) {
+      setIsToastOpen({
+        type: 'error',
+        message: 'You must be logged in first',
+        isOpen: true,
+      })
+      
+      return Promise.reject()
+    }
 
     if (postType === 'Post')
       return postService
