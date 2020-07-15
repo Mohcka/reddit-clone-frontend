@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { VoteButtonGroup } from '../votes/VoteButtonGroup'
 import { ApiServiceContext } from '../context/ApiContext'
 import { VoteType } from '../../models/vote-model'
@@ -17,23 +17,46 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
   postType,
   updateScore,
 }) => {
-  const apiContext = useContext(ApiServiceContext)
-  const { isAuthenticated } = useContext(AuthContext)
+  const { postService, commentService, userService } = useContext(
+    ApiServiceContext
+  )
+  const { isAuthenticated, userInfo } = useContext(AuthContext)
   const { setIsToastOpen } = useContext(ToastContext)
+
+  // Passed into the vote component to display if the logged in
+  // user had voted on a post before
+  const [userVote, setUserVote] = useState<VoteType | undefined>(undefined)
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (postType === 'Post') {
+        userService
+          .getUserVoteFromPost(userInfo.userId!, postId)
+          .then((data) => setUserVote(data.userVote))
+      } else {
+        userService
+          .getUserVoteFromComment(userInfo.userId!, postId)
+          .then((data) => setUserVote(data.userVote))
+      }
+    }
+  }, [])
 
   // Called whenver a authenticated user clicks on a vote button
   const handleUservVote = (voteType: VoteType) => {
+    // reject vote action if not authenticated
     if (!isAuthenticated)
-      return setIsToastOpen({
-        type: 'error',
-        message: 'You must be logged in first',
-        isOpen: true,
-      })
+      return Promise.reject().then(() =>
+        setIsToastOpen({
+          type: 'error',
+          message: 'You must be logged in first',
+          isOpen: true,
+        })
+      )
 
-    if ((postType === 'Post'))
-      apiContext.postService
+    if (postType === 'Post')
+      return postService
         .VoteOnPost(postId, voteType)
-        .then(data => updateScore(data.numVotes))
+        .then((data) => updateScore(data.numVotes))
         .catch((_err) =>
           setIsToastOpen({
             type: 'error',
@@ -41,11 +64,10 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
             isOpen: true,
           })
         )
-
-    if ((postType === 'Comment'))
-      apiContext.commentService
+    else
+      return commentService
         .VoteOnComment(postId, voteType)
-        .then(data => updateScore(data.numVotes))
+        .then((data) => updateScore(data.numVotes))
         .catch((_err) =>
           setIsToastOpen({
             type: 'error',
@@ -55,7 +77,9 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
         )
   }
 
-  return <VoteButtonGroup handleUserVote={handleUservVote} />
+  return (
+    <VoteButtonGroup userVote={userVote} handleUserVote={handleUservVote} />
+  )
 }
 
 export default VoteButtons
