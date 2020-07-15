@@ -4,6 +4,7 @@ import { ApiWebService } from '../../services/generic-service';
 import PostsService from '../../services/posts-service';
 import CommentService from '../../services/comments-service';
 import VotesService from '../../services/votes-service';
+import UsersService from '../../services/users-service';
 
 export type IApiProviderContext<T> = ApiWebService<T>
 
@@ -11,7 +12,7 @@ export type IApiProviderContext<T> = ApiWebService<T>
 export const ApiServices = {
   postService: new PostsService(`https://localhost:5001/api/posts`),
   commentService: new CommentService("https://localhost:5001/api/comments"),
-  voteService: new VotesService("https://localhost:5001/api/comments"),
+  userService: new UsersService("https://localhost:5001/api/users")
 }
 
 /**
